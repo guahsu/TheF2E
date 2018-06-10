@@ -1,21 +1,10 @@
-# the_f2e
+# 六角學院的 The F2E 挑戰
 
-> A Vue.js project
+### 第一週 - TodoList：
+[CODE](https://github.com/guahsu/TheF2E/blob/master/src/components/TodoList.vue)  
+[DEMO](http://guahsu.io/TheF2E/dist/index.html#/1/todolist)  
+週末一個下午拼完...寫得滿髒，  
+等挑戰週都結束再找時間來整理T_T。  
+第一週的心得是只有一天的話就不要自己在那邊徒手寫CSS了，  
+決定下週開始的都使用ui framework來弄畫面囧
 
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

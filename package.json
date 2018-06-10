@@ -11,7 +11,13 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@fortawesome/fontawesome": "^1.1.8",
+    "@fortawesome/fontawesome-free-brands": "^5.0.13",
+    "@fortawesome/fontawesome-free-regular": "^5.0.13",
+    "@fortawesome/fontawesome-free-solid": "^5.0.13",
+    "font-awesome": "^4.7.0",
     "node-sass": "^4.9.0",
+    "normalize.css": "^8.0.0",
     "sass": "^1.5.1",
     "sass-loader": "^7.0.2",
     "vue": "^2.5.2",
