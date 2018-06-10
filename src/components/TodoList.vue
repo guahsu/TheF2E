@@ -19,7 +19,7 @@
               <input v-model="addData.completed" type="checkbox">
             </label>
             <!-- title -->
-            <input v-show="!addData.completed" v-model="addData.title" :class="{ 'completed': add.completed }" class="task-form-title" type="text" placeholder="Type Something Here..." :readonly="!add" >
+            <input v-show="!addData.completed" v-model="addData.title" :class="{ 'completed': add.completed }" class="task-form-title" type="text" :placeholder="addData.titlePlaceholder" :readonly="!add" >
             <span v-show="addData.completed" class="task-form-title completed">{{ addData.title || 'Type Something Here...' }}</span>
             <!-- started checkbox -->
             <label class="task-form-checkbox">
@@ -56,7 +56,7 @@
                     {{ `${addData.file.fileName}\n${addData.file.uploadTime}` }}
                   </div>
                   <div class="task-form-file-button">
-                    <input type="file" @change="fileUpdate($event, index)">
+                    <input type="file" @change="fileUpdate($event)">
                     <i class="task-form-file-icon fas fa-plus-square"></i>
                   </div>
                 </div>
@@ -100,8 +100,8 @@
             </label>
             <!-- title -->
             <input
-              type="text" :class="['task-form-title', { 'completed': add.completed }]" :readonly="edit !== index" v-show="!data.completed" v-model="data.title" placeholder="Type Something Here..." >
-            <span v-show="data.completed" class="task-form-title completed">{{ data.title || 'Type Something Here...' }}</span>
+              type="text" :class="['task-form-title', { 'completed': add.completed }]" :readonly="edit !== index" v-show="!data.completed" v-model="data.title" :placeholder="data.titlePlaceholder" >
+            <span v-show="data.completed" class="task-form-title completed">{{ data.title || data.titlePlaceholder }}</span>
             <!-- started checkbox -->
             <label class="task-form-checkbox">
               <span v-show="data.started"><i  class="task-form-checkbox--started fas fa-star"></i></span>
@@ -183,6 +183,7 @@ export default {
       completed: false,
       started: false,
       title: null,
+      titlePlaceholder: 'Type Something Here...',
       date: null,
       time: null,
       file: {},
@@ -249,7 +250,7 @@ export default {
     fileUpdate (e, index) {
       const fileData = {
         fileName: e.target.files[0].name,
-        uploadTime: e.target.files[0].lastModifiedDate.toISOString().slice(0, 10)
+        uploadTime: e.target.files[0].lastModifiedDate.toLocaleString()
       }
       if (index === undefined) {
         this.addData.file = Object.assign({}, fileData)
@@ -258,6 +259,9 @@ export default {
       }
     },
     addTodo () {
+      if (!this.addData.title) {
+        this.addData.titlePlaceholder = `unnamed-${new Date().toLocaleString()}`
+      }
       this.todoData.push(this.addData)
       this.addData = Object.assign({}, this.defaultData)
       sessionStorage.setItem('todoData', JSON.stringify(this.todoData))
@@ -466,7 +470,7 @@ textarea {
       font-family: Roboto-Medium;
       &::placeholder {
         border-color: #000000;
-        color: #000000;
+        color: #999999;
       }
       &.completed {
         margin: 1px 31px 1px 16px;
