@@ -8,3 +8,7 @@
 第一週的心得是只有一天的話就不要自己在那邊徒手寫CSS了，  
 決定下週開始的都使用ui framework來弄畫面囧
 
+### 第二週 - Filter：
+[CODE](https://github.com/guahsu/TheF2E/blob/master/src/components/Filter.vue)  
+[DEMO](http://guahsu.io/TheF2E/dist/index.html#/2/filter)  
+先刻了點皮而已，假日再繼續！
