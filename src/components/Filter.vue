@@ -35,10 +35,21 @@
         .card
           .card-img
           .card-info
-            .title Kogi Cosby sweater ethical.
-            .desc Donec euismod scelerisque ligula. Maecenas eu varius risus, eu aliquet arcu. Curabitur fermentum suscipit est, tincidunt mattis lorem luctus id. Donec eget massa a diam condimentum pretium. Aliquam erat volutpat. Integer ut tincidunt orci. Etiam tristique, elit ut consectetur iaculis, metus lectus mattis justo, vel mollis eros neque quis augue. Sed lobortis ultrices lacus, a placerat metus rutrum sit amet. Aenean ut suscipit justo.
+            .row.title Kogi Cosby sweater ethical.
+            .row.desc Donec euismod scelerisque ligula. Maecenas eu varius risus, eu aliquet arcu. Curabitur fermentum suscipit est, tincidunt mattis lorem luctus id. Donec eget massa a diam condimentum pretium. Aliquam erat volutpat. Integer ut tincidunt orci. Etiam tristique, elit ut consectetur iaculis, metus lectus mattis justo, vel mollis eros neque quis augue. Sed lobortis ultrices lacus, a placerat metus rutrum sit amet. Aenean ut suscipit justo.
+            .row
+              span.organizer
+                | Ethan Foster
+              span.tag Entertainment
+            .row
+              span.location
+                i.fas.fa-map-marker-alt
+                | Kaohsiung City
+              span.date
+                i.far.fa-calendar-alt
+                | 2018/5/24 - 2018/5/31
             //-
-              .organizer Ethan Foster
+              i.fas.fa-map-marker-alt
               .tag Entertainment
               .location Kaohsiung City
               .date
@@ -73,6 +84,7 @@ body {
   bottom: 0;
   margin: 0;
   padding: 0;
+  background-color: #f2f2f2;
 }
 #filter {
   width: 100%;
@@ -125,7 +137,6 @@ body {
   align-items: flex-start;
   justify-content: flex-start;
   width: 100%;
-  height: 100vh;
   background-color: #f2f2f2;
   .aside {
     display: flex;
@@ -186,14 +197,14 @@ body {
     }
   }
   .content {
+    display: flex;
+    align-items: flex-start;
     flex: 8;
+    flex-direction: column;
+    justify-content: flex-start;
     padding: 42px 0;
     height: 100%;
     text-align-last: left;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
     .info {
       margin-bottom: 15px;
       font-weight: 500;
@@ -217,6 +228,7 @@ body {
         font-style: italic;
         font-size: 16px;
         cursor: normal;
+        transition: 0.25s;
         .remove {
           margin-left: 10px;
           font-size: 14px;
@@ -230,7 +242,7 @@ body {
     }
     .card {
       display: flex;
-      transition: 0.3s;
+      transition: 0.35s;
       &-img {
         width: 220px;
         height: 220px;
@@ -241,8 +253,10 @@ body {
         width: 560px;
         height: 220px;
         background-color: #fff;
-        .title {
+        .row {
           margin-bottom: 16px;
+        }
+        .title {
           color: #522678;
           font-weight: 900;
           font-size: 24px;
@@ -254,6 +268,34 @@ body {
           font-weight: 500;
           font-size: 16px;
           line-height: 24px;
+        }
+        .organizer {
+          font-weight: 900;
+          font-size: 16px;
+        }
+        .tag {
+          display: inline-block;
+          margin-left: 20px;
+          padding: 2px 16px;
+          border-radius: 100px;
+          background-color: #d7d7d7;
+          color: #ffffff;
+          font-weight: 600;
+          font-style: italic;
+          font-size: 16px;
+          cursor: normal;
+          transition: 0.25s;
+        }
+        .location,
+        .date {
+          margin-right: 20px;
+          color: #9b9b9b;
+          font-weight: 500;
+          svg {
+            margin-right: 7px;
+            color: #000000;
+            font-weight: 100;
+          }
         }
       }
       &:hover {
