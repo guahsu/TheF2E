@@ -4,7 +4,7 @@
       .logo HaveFun
       .search
         i.el-icon-search
-        input(type="text", placeholder="Explore your own activites")
+        input(v-model="keyword", type="text", placeholder="Explore your own activites")
     .container
       .aside
         .filter.location
@@ -13,11 +13,9 @@
             option(v-for="(option, index) in options" :key="index" :value="option.value") {{ option.name }}
         .filter.date
           .title Date
-          .from
-            | from
+          .from from
             input.input(type="date")
-          .to
-            | to
+          .to to
             input.input(type="date")
         .filter.categories
           .title Categories
@@ -32,22 +30,22 @@
         .tags
           .tag(v-for="(tag, index) in categories") {{ tag.name }}
             i.remove.el-icon-circle-close-outline
-        .card
-          .card-img
+        .card(v-for="(data, index) in dataList" :key="index")
+          img.card-img(:src="data.Picture1")
           .card-info
-            .row.title Kogi Cosby sweater ethical.
-            .row.desc Donec euismod scelerisque ligula. Maecenas eu varius risus, eu aliquet arcu. Curabitur fermentum suscipit est, tincidunt mattis lorem luctus id. Donec eget massa a diam condimentum pretium. Aliquam erat volutpat. Integer ut tincidunt orci. Etiam tristique, elit ut consectetur iaculis, metus lectus mattis justo, vel mollis eros neque quis augue. Sed lobortis ultrices lacus, a placerat metus rutrum sit amet. Aenean ut suscipit justo.
+            .row.title {{ data.Name }}
+            .row.desc {{ data.Description }}
             .row
-              span.organizer
-                | Ethan Foster
-              span.tag Entertainment
-            .row
+              span.phone
+                i.fas.fa-phone
+                | {{ data.Tel }}
               span.location
                 i.fas.fa-map-marker-alt
-                | Kaohsiung City
+                | {{ data.Add }}
+            .row
               span.date
                 i.far.fa-calendar-alt
-                | 2018/5/24 - 2018/5/31
+                | {{ data.Opentime }}
             //-
               i.fas.fa-map-marker-alt
               .tag Entertainment
@@ -56,11 +54,14 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'filter',
   data () {
     return {
       dataList: [],
+      keyword: '',
       options: [{ name: 'location1', value: 1 }, { name: 'location2', value: 2 }, { name: 'location3', value: 3 }],
       categories: [
         { name: 'All', checked: false },
@@ -70,6 +71,30 @@ export default {
         { name: 'Outdoors', checked: false }
       ]
     }
+  },
+  watch: {
+    keyword () {
+      this.getData()
+    }
+  },
+  methods: {
+    getData () {
+      return axios
+        .get('https://data.kcg.gov.tw/api/action/datastore_search', {
+          params: {
+            resource_id: '92290ee5-6e61-456f-80c0-249eae2fcc97',
+            q: this.keyword,
+            limit: 5
+          }
+        })
+        .then(res => {
+          this.dataList = res.data.result.records
+        })
+        .catch(err => console.log(err))
+    }
+  },
+  mounted () {
+    this.getData()
   }
 }
 </script>
@@ -242,6 +267,7 @@ body {
     }
     .card {
       display: flex;
+      margin-bottom: 24px;
       transition: 0.35s;
       &-img {
         width: 220px;
@@ -264,14 +290,10 @@ body {
         .desc {
           overflow: hidden;
           height: 50px;
-          text-align-last: left;
+          text-align: left;
           font-weight: 500;
           font-size: 16px;
           line-height: 24px;
-        }
-        .organizer {
-          font-weight: 900;
-          font-size: 16px;
         }
         .tag {
           display: inline-block;
@@ -287,7 +309,8 @@ body {
           transition: 0.25s;
         }
         .location,
-        .date {
+        .date,
+        .phone {
           margin-right: 20px;
           color: #9b9b9b;
           font-weight: 500;
