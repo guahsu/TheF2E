@@ -1,56 +1,53 @@
 <template lang="pug">
-  #filter
+  #filter(v-loading="stageData.length === 0")
     .header
       .logo HaveFun
       .search
         i.el-icon-search
-        input(v-model="keyword", type="text", placeholder="Explore your own activites")
+        input(v-model="keyword", type="text", placeholder="search keyword from url")
     .container
       .aside
         .filter.location
-          .title Location
-          select
-            option(v-for="(option, index) in options" :key="index" :value="option.value") {{ option.name }}
+          .title Stage
+          select(v-model="selectedStage")
+            option(v-for="(stage, index) in stageList" :key="index" :value="stage.value") {{ stage.name }}
         .filter.date
           .title Date
           .from from
-            input.input(type="date")
+            input.input(v-model="startDate", type="date")
           .to to
-            input.input(type="date")
-        .filter.categories
-          .title Categories
-          .checkbox(v-for="(category, index) in categories", :key="index")
-            input(:id="category.name", type="checkbox", model="category.checked")
-            label.select(:for="category.name") {{ category.name }}
+            input.input(v-model="endDate", type="date")
+        .filter.tags
+          .title Tags
+          .checkbox(v-for="(tag, index) in tagData", :key="index")
+            span(v-show='tag.checked')
+              i.checkbox--checked.fas.fa-check-square
+            span(v-show='!tag.checked')
+              i.checkbox--unchecked.fas.fa-square
+            input(:id="tag.name" v-model='tag.checked', type='checkbox')
+            label(:for="tag.name") {{ tag.name }}
+        a.guahsu(href="https://github.com/guahsu/TheF2E", target="_blank") https://github.com/guahsu/TheF2E
       .content
         .info
           | Showing
           span.resultCnt {{ ` ${dataList.length} ` }}
           | results by ...
         .tags
-          .tag(v-for="(tag, index) in categories") {{ tag.name }}
-            i.remove.el-icon-circle-close-outline
+          .tag(v-for="(tag, index) in tagData" v-if="tag.checked") {{ tag.name }}
+            i.remove.el-icon-circle-close-outline(@click="removeTag(index)")
         .card(v-for="(data, index) in dataList" :key="index")
-          img.card-img(:src="data.Picture1")
+          // img.card-img(:src="data.Picture1")
           .card-info
-            .row.title {{ data.Name }}
-            .row.desc {{ data.Description }}
             .row
-              span.phone
-                i.fas.fa-phone
-                | {{ data.Tel }}
-              span.location
-                i.fas.fa-map-marker-alt
-                | {{ data.Add }}
+              a.title(:href="data.url", target="_blank") {{ data.url }}
             .row
-              span.date
+              span.icon
                 i.far.fa-calendar-alt
-                | {{ data.Opentime }}
-            //-
-              i.fas.fa-map-marker-alt
-              .tag Entertainment
-              .location Kaohsiung City
-              .date
+                | {{ data.uploadTime }}
+            .row
+              span.icon
+                i.fas.fa-tags
+                .tag(v-for="(tag, index) in data.tags", :key="index") {{ tag }}
 </template>
 
 <script>
@@ -58,48 +55,89 @@ import axios from 'axios'
 
 export default {
   name: 'filter',
-  data () {
+  data() {
     return {
-      dataList: [],
       keyword: '',
-      options: [{ name: 'location1', value: 1 }, { name: 'location2', value: 2 }, { name: 'location3', value: 3 }],
-      categories: [
-        { name: 'All', checked: false },
-        { name: 'Entertainment', checked: false },
-        { name: 'Food', checked: false },
-        { name: 'Learning', checked: false },
-        { name: 'Outdoors', checked: false }
-      ]
+      startDate: '',
+      endDate: '',
+      stage: '',
+      selectedStage: 1,
+      stageList: [{ name: '1-TodoList', value: 1 }, { name: '2-Filter', value: 2 }],
+      stageData: [],
+      tagData: []
+    }
+  },
+  computed: {
+    // loading() {
+    //   return Boolean(!this.stageData || !this.tagData)
+    // },
+    dataList() {
+      const keywordReg = new RegExp(this.keyword ? this.keyword.replace(/\\/g, '') : `.*`, 'gi')
+      const tagReg = new RegExp(this.selectedTags ? `${this.selectedTags.join('')}.*` : `.*`, 'gi')
+      return this.stageData.filter(data => {
+        return (
+          data.url.match(keywordReg) &&
+          data.tags.join().match(tagReg) &&
+          data.timeStamp > new Date(this.startDate || '2018-01-01').getTime() &&
+          data.timeStamp < new Date(this.endDate || '2019-01-01').getTime()
+        )
+      })
+    },
+    selectedTags() {
+      return this.tagData.filter(item => item.checked).map(item => `(?=.*${item.name})`)
     }
   },
   watch: {
-    keyword () {
+    selectedStage() {
+      this.stageData = []
       this.getData()
     }
   },
   methods: {
-    getData () {
+    getData() {
       return axios
-        .get('https://data.kcg.gov.tw/api/action/datastore_search', {
+        .get('https://www.thef2e.com/api/codeList', {
           params: {
-            resource_id: '92290ee5-6e61-456f-80c0-249eae2fcc97',
-            q: this.keyword,
-            limit: 5
+            stage: this.selectedStage
           }
         })
         .then(res => {
-          this.dataList = res.data.result.records
+          this.stageData = res.data.sort((a, b) => a.timeStamp - b.timeStamp).map(item => {
+            return {
+              tags: item.tag.split(',').sort((a, b) => a.length - b.length),
+              timeStamp: item.timeStamp,
+              uploadTime: new Date(item.timeStamp).toLocaleString(),
+              url: item.url
+            }
+          })
         })
         .catch(err => console.log(err))
+    },
+    getTagList() {
+      return axios
+        .get('https://www.thef2e.com/api/tagList')
+        .then(res => {
+          this.tagData = res.data.sort((a, b) => a.localeCompare(b)).map(item => {
+            return {
+              name: item,
+              checked: false
+            }
+          })
+        })
+        .catch(err => console.log(err))
+    },
+    removeTag(index) {
+      this.tagData[index].checked = false
     }
   },
-  mounted () {
+  mounted() {
     this.getData()
+    this.getTagList()
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 * {
   box-sizing: border-box;
   outline-width: 0;
@@ -112,8 +150,7 @@ body {
   background-color: #f2f2f2;
 }
 #filter {
-  width: 100%;
-  // background-color: #333;
+  min-width: 1200px;
 }
 .header {
   display: flex;
@@ -170,12 +207,16 @@ body {
     flex-direction: column;
     height: 100%;
     text-align: center;
+    .guahsu {
+      margin-top: 20px;
+      font-weight: 900;
+    }
     .filter {
       padding: 24px 40px;
       width: 300px;
       border-bottom: 1px solid #d7d7d7;
       background-color: #ebebeb;
-      text-align-last: left;
+      text-align: left;
       .title {
         margin-bottom: 15px;
         color: #000000;
@@ -209,13 +250,30 @@ body {
           }
         }
       }
-      &.categories {
+      &.tags {
         border-bottom: none;
         .checkbox {
+          position: relative;
+          margin: 5px 0;
           font-weight: 500;
+          cursor: pointer;
+
+          user-select: none;
+          &--checked {
+            color: #7828b4;
+          }
+          &--unchecked {
+            color: #ffffff;
+          }
           input {
-            margin-right: 6px;
-            margin-bottom: 11px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+          }
+          label {
+            margin-left: 10px;
+            cursor: pointer;
           }
         }
       }
@@ -229,7 +287,7 @@ body {
     justify-content: flex-start;
     padding: 42px 0;
     height: 100%;
-    text-align-last: left;
+    text-align: left;
     .info {
       margin-bottom: 15px;
       font-weight: 500;
@@ -242,6 +300,7 @@ body {
     }
     .tags {
       margin-bottom: 32px;
+      user-select: none;
       .tag {
         display: inline-block;
         margin-right: 8px;
@@ -269,21 +328,22 @@ body {
       display: flex;
       margin-bottom: 24px;
       transition: 0.35s;
+      font-size: 16px;
       &-img {
         width: 220px;
-        height: 220px;
         background: #333;
       }
       &-info {
-        padding: 24px 20px;
-        width: 560px;
-        height: 220px;
+        padding: 24px 20px 14px 20px;
+        width: 780px;
         background-color: #fff;
         .row {
           margin-bottom: 16px;
+          overflow: hidden;
         }
         .title {
           color: #522678;
+          text-decoration: none;
           font-weight: 900;
           font-size: 24px;
         }
@@ -297,7 +357,8 @@ body {
         }
         .tag {
           display: inline-block;
-          margin-left: 20px;
+          margin-right: 10px;
+          margin-bottom: 10px;
           padding: 2px 16px;
           border-radius: 100px;
           background-color: #d7d7d7;
@@ -308,9 +369,7 @@ body {
           cursor: normal;
           transition: 0.25s;
         }
-        .location,
-        .date,
-        .phone {
+        .icon {
           margin-right: 20px;
           color: #9b9b9b;
           font-weight: 500;
