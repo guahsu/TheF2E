@@ -6,8 +6,7 @@ import router from './router'
 
 import 'normalize.css'
 import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-import 'element-ui/lib/theme-chalk/display.css'
+import '../theme/index.css'
 
 import fontawesome from '@fortawesome/fontawesome'
 import regular from '@fortawesome/fontawesome-free-regular'
