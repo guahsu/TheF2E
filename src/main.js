@@ -5,8 +5,8 @@ import App from './App'
 import router from './router'
 
 import 'normalize.css'
-import ElementUI from 'element-ui'
 import '../theme/index.css'
+import ElementUI from 'element-ui'
 
 import fontawesome from '@fortawesome/fontawesome'
 import regular from '@fortawesome/fontawesome-free-regular'

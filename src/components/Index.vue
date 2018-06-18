@@ -1,5 +1,5 @@
 <template lang="pug">
-  el-container#index
+  el-container#Index
     el-header.header
       h1.title 六角學院 TheF2E 前端挑戰
       h2.subtitle 目前參賽人數：{{ singUpTotal }}
@@ -51,7 +51,6 @@
                   .row
                     span.icon
                       i.fas.fa-tags
-                      // .tag(v-for="(tag, index) in code.tags", :key="index", :class="{'acitve' : selectedTags.includes(tag.trim()) }")
                       .tag(v-for="(tag, index) in code.tags", :key="index", :class="{'acitve' : selectedTagsRegexp && tag.match(selectedTagsRegexp) }")
                         | {{ tag }}
             el-pagination(
@@ -63,12 +62,12 @@
               :total="filterData.length")
         el-tab-pane(label="參賽查詢", name="second")
           .filter
-            el-form(ref="searchForm", :rules="rules", :model="searchForm", :inline="true")
+            el-form(ref="searchForm", :rules="rules", :model="searchForm", :inline="true", @submit.prevent="onSubmit")
               el-form-item(label="參賽信箱", prop="email")
                 el-input.email(v-model="searchForm.email")
               el-form-item
                 el-button(type="primary", @click="submitForm('searchForm')") 查詢
-          .codeList(v-loading="!profile")
+          .profileList(v-loading="!profile")
             el-alert(v-if="profile === 'no-data'" type="warning", title="查無作品提交紀錄，請重新查詢", center, show-icon)
             template(v-if="profile !== 'no-data' && profile && profile.length")
               h3 {{ searchForm.email }}
@@ -258,156 +257,155 @@ export default {
 </script>
 
 <style lang="scss">
-* {
-  box-sizing: border-box;
-}
-body,
-html {
-  width: 100%;
-}
-#index {
+#Index {
   max-width: 1140px;
   cursor: default;
-}
-.header {
-  margin-bottom: 30px;
-  .title {
-    font-size: 30px;
-    color: #00cd98;
-    font-weight: 900;
-  }
-  .subtitle {
-    font-size: 22px;
-  }
-}
-// Tab
-.el-tabs__nav {
-  width: 100%;
-  .el-tabs__item {
-    width: 50%;
-    font-size: 18px;
-  }
-}
-.el-tabs__content {
-  padding: 20px 30px;
-}
-.el-col {
-  margin-bottom: 20px;
-  text-align: left;
-}
-// CodeList
-.filter {
-  .date-picker {
-    width: 250px !important;
-  }
-  .selector {
-    width: 250px;
-  }
-  .keyword {
-    width: 250px;
-  }
-  .el-checkbox-group {
-    text-align: left;
-    .el-checkbox {
-      margin: 4px;
-    }
-  }
-  .el-checkbox__inner {
-    display: none;
-  }
-  .is-checked {
-    .el-checkbox__label {
-      border: solid 1px #00cd98;
+  .header {
+    margin-bottom: 30px;
+    .title {
       color: #00cd98;
+      font-weight: 900;
+      font-size: 30px;
+      display: flex;
+      justify-content: center;
+    }
+    .subtitle {
+      font-size: 22px;
     }
   }
-  .el-checkbox__label {
-    padding: 2px 10px;
-    border: solid 1px #979aa0;
-    border-radius: 5px;
-    color: #979aa0;
-  }
-}
-.card {
-  margin: 10px 0px;
-  padding: 10px;
-  .row:not(:last-child) {
-    overflow: hidden;
-    margin-bottom: 16px;
-  }
-  .link {
-    color: #00cd98;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 18px;
-  }
-  .tag {
-    display: inline-block;
-    margin-right: 4px;
-    margin-bottom: 4px;
-    padding: 3px 10px;
-    border-radius: 5px;
-    background-color: #d7d7d7;
-    color: #ffffff;
-    font-size: 14px;
-    cursor: normal;
-    transition: 0.25s;
-    &.acitve {
-      background-color: #00cd98;
-      color: #ffffff;
-    }
-    &.profile-tag {
-      background-color: #00cd98;
-      color: #ffffff;
+  // Tab
+  .el-tabs__nav {
+    width: 100%;
+    .el-tabs__item {
+      width: 50%;
+      font-size: 18px;
     }
   }
-  .icon {
-    color: #4d6277;
-    font-weight: 400;
-    font-size: 14px;
-    a {
-      color: #4d6277;
-      font-weight: 400;
-      font-size: 16px;
-      &:hover {
+  .el-tabs__content {
+    padding: 20px 30px;
+  }
+  .el-col {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  // CodeList
+  .filter {
+    .date-picker {
+      width: 250px !important;
+    }
+    .selector {
+      width: 250px;
+    }
+    .keyword {
+      width: 250px;
+    }
+    .el-checkbox-group {
+      text-align: left;
+      .el-checkbox {
+        margin: 4px;
+      }
+    }
+    .el-checkbox__inner {
+      display: none;
+    }
+    .is-checked {
+      .el-checkbox__label {
+        border: solid 1px #00cd98;
         color: #00cd98;
       }
     }
-    &.date {
-      font-size: 16px;
+    .el-checkbox__label {
+      padding: 2px 10px;
+      border: solid 1px #979aa0;
+      border-radius: 5px;
+      color: #979aa0;
     }
-    svg {
-      margin-right: 10px;
+  }
+  .card {
+    margin: 10px 0px;
+    padding: 10px;
+    .row:not(:last-child) {
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .link {
       color: #00cd98;
-      font-weight: 100;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 18px;
+    }
+    .tag {
+      display: inline-block;
+      margin-right: 4px;
+      margin-bottom: 4px;
+      padding: 3px 10px;
+      border-radius: 5px;
+      background-color: #d7d7d7;
+      color: #ffffff;
+      font-size: 14px;
+      cursor: normal;
+      transition: 0.25s;
+      &.acitve {
+        background-color: #00cd98;
+        color: #ffffff;
+      }
+      &.profile-tag {
+        background-color: #00cd98;
+        color: #ffffff;
+      }
+    }
+    .icon {
+      color: #4d6277;
+      font-weight: 400;
+      font-size: 14px;
+      a {
+        color: #4d6277;
+        font-weight: 400;
+        font-size: 16px;
+        &:hover {
+          color: #00cd98;
+        }
+      }
+      &.date {
+        font-size: 16px;
+      }
+      svg {
+        margin-right: 10px;
+        color: #00cd98;
+        font-weight: 100;
+      }
     }
   }
-}
-// profile
-.email {
-  width: 250px;
-}
-// Footer
-.guahsu {
-  padding: 30px 0 100px 0 !important;
-  border-top: 1px solid #00cd98;
-  font-weight: 900;
-  a {
-    color: #00cd98;
-    text-decoration: none;
-  }
-}
+  // profile
+  .profileList {
+    margin-top: 20px;
+    .email {
+      width: 250px;
+    }
 
-@media screen and (max-width: 480px) {
-  .header {
-    margin-bottom: 20px;
-    .title {
-      font-size: 24px;
+  }
+  // Footer
+  .guahsu {
+    padding: 30px 0 100px 0 !important;
+    border-top: 1px solid #00cd98;
+    font-weight: 900;
+    a {
       color: #00cd98;
-      font-weight: 900;
+      text-decoration: none;
     }
-    .subtitle {
-      font-size: 20px;
+  }
+
+  @media screen and (max-width: 480px) {
+    .header {
+      margin-bottom: 20px;
+      .title {
+        color: #00cd98;
+        font-weight: 900;
+        font-size: 24px;
+      }
+      .subtitle {
+        font-size: 20px;
+      }
     }
   }
 }

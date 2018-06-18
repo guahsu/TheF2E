@@ -19,4 +19,8 @@ export default {
   color: #2c3e50;
   text-align: center;
 }
+
+* {
+  box-sizing: border-box;
+}
 </style>

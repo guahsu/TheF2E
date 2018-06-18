@@ -76,11 +76,57 @@
               .card-latestOrder
                 img.img
                 .info
-                  .name
-                  .time
-                  .user
-                  .total
-                  .amount
+                  .row
+                    .name
+                      | VinTage T-shirt
+                  .row
+                    span.time
+                      i.fas.fa-clock
+                      | 2018/6/13  13:42
+                    span.total
+                      | Total
+                  .row
+                    span.user
+                      i.fas.fa-male
+                      | Belle Willis
+                    span.amount
+                      | 3,200
+              .card-latestOrder
+                img.img
+                .info
+                  .row
+                    .name
+                      | VinTage T-shirt
+                  .row
+                    span.time
+                      i.fas.fa-clock
+                      | 2018/6/13  13:42
+                    span.total
+                      | Total
+                  .row
+                    span.user
+                      i.fas.fa-male
+                      | Belle Willis
+                    span.amount
+                      | 3,200
+              .card-latestOrder
+                img.img
+                .info
+                  .row
+                    .name
+                      | VinTage T-shirt
+                  .row
+                    span.time
+                      i.fas.fa-clock
+                      | 2018/6/13  13:42
+                    span.total
+                      | Total
+                  .row
+                    span.user
+                      i.fas.fa-male
+                      | Belle Willis
+                    span.amount
+                      | 3,200
       //-
       el-tab-pane(label="ORDERS", name="orders")
       el-tab-pane(label="PRODUCT", name="produce")
@@ -133,6 +179,9 @@ export default {
 
 <style lang="scss">
 #AdminOrder {
+  * {
+    box-sizing: border-box;
+  }
   display: flex;
   align-items: center;
   justify-content: center;
@@ -140,110 +189,154 @@ export default {
   padding: 0 50px;
   width: 100%;
   background: #f2f2f2;
-}
-h2 {
-  margin: 0;
-}
-.el-tabs {
-  &__item {
-    font-size: 20px;
-    width: 150px;
-    text-align: center;
+  h2 {
+    margin: 0;
   }
-}
-.container {
-  padding: 20px;
-  max-width: 940px;
-  width: 100%;
-  text-align: left;
-}
-.title {
-  display: flex;
-  align-items: flex-end;
-  margin: 20px 0;
-}
-.el-card__body {
-  width: 100%;
-}
-.card {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  margin-bottom: 20px;
-  padding: 10px 30px;
-  &-icon {
+  .el-tabs {
+    &__item {
+      width: 150px;
+      text-align: center;
+      font-size: 20px;
+    }
+  }
+  .container {
+    padding: 20px;
+    max-width: 1000px;
+    width: 100%;
+    text-align: left;
+  }
+  .title {
+    display: flex;
+    align-items: flex-end;
+    margin: 20px 0;
+  }
+  .el-card__body {
+    width: 100%;
+  }
+  .card {
     display: flex;
     align-items: center;
+    flex-direction: column;
     justify-content: center;
-    font-weight: 600;
-    font-size: 16px;
-    svg {
-      margin-right: 8px;
-      font-size: 25px;
-    }
-  }
-  &-value {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 36px;
-    &--revenue {
-      color: #7ed321;
-    }
-    &--cost {
-      color: #d0021b;
-    }
-    &--income {
-      color: #4a90e2;
-    }
-  }
-  &-website:not(:last-child) {
-    border-bottom: 1px solid #EBEBEB;
-  }
-  &-website {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    span {
-      margin: 20px 10px 20px 0;
-      &.name {
-        font-size: 16px;
-        color: #9b9b9b;
-        width: 40%;
-      }
-      &.value {
-        font-size: 20px;
-        color: #000000;
-        text-align: right;
-        width: 20%;
-        margin-right: 20px;
-      }
-      &.up {
-        width: 20%;
-        color: #7ed321;
-        font-size: 16px;
-      }
-      &.down {
-        width: 20%;
-        color: #D0021B;
-        font-size: 16px;
-      }
+    margin-bottom: 20px;
+    padding: 10px 30px;
+    border-radius: 3px;
+    background-color: #fff;
+    box-shadow: 0 0 10px 5px #ebebeb;
+    &-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 16px;
       svg {
-        font-size: 45px;
-        margin-right: 5px;
-        &.fa-arrow {
-          &-up,
-          &-down {
-            font-size: 18px;
+        margin-right: 8px;
+        font-size: 25px;
+      }
+    }
+    &-value {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 36px;
+      &--revenue {
+        color: #7ed321;
+      }
+      &--cost {
+        color: #d0021b;
+      }
+      &--income {
+        color: #4a90e2;
+      }
+    }
+    &-website:not(:last-child),
+    &-latestOrder:not(:last-child) {
+      border-bottom: 1px solid #ebebeb;
+    }
+    &-website {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      span {
+        margin: 20px 10px 24px 0;
+        &.name {
+          flex: 4;
+          color: #9b9b9b;
+          font-size: 16px;
+        }
+        &.value {
+          margin-right: 20px;
+          flex: 2;
+          color: #000000;
+          text-align: right;
+          font-size: 20px;
+        }
+        &.up {
+          flex: 2;
+          color: #7ed321;
+          font-size: 16px;
+        }
+        &.down {
+          flex: 2;
+          color: #d0021b;
+          font-size: 16px;
+        }
+        svg {
+          margin-right: 5px;
+          font-size: 45px;
+          &.fa-arrow {
+            &-up,
+            &-down {
+              font-size: 18px;
+            }
           }
         }
       }
     }
-  }
-  &-latestOrder {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
+    &-latestOrder {
+      margin: 20px 10px 20px 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      .img {
+        width: 100px;
+        height: 100px;
+        background-color: #333;
+      }
+      .info {
+        width: 60%;
+        margin-left: 20px;
+        font-size: 16px;
+        color: #9b9b9b;
+        .row {
+          position: relative;
+          width: 100%;
+          margin-bottom: 8px;
+        }
+        .name {
+          font-size: 20px;
+          color: #000000;
+          font-weight: 900;
+        }
+        .time {
+          svg {
+            font-size: 10px;
+            margin-right: 8px;
+          }
+        }
+        .user {
+          svg {
+            font-size: 10px;
+            margin-left: 3px;
+            margin-right: 12px;
+          }
+        }
+        .total,
+        .amount {
+          position: absolute;
+          right: 0;
+        }
+      }
+    }
   }
 }
 </style>
