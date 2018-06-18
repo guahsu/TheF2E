@@ -40,25 +40,30 @@
               | 共有 {{ filterData.length }} 筆資料
               el-col(:xs="24")
                 el-card.card(shadow="hover", v-for="(code, index) in codeList", :key="index")
-                  .row
-                    span.icon.date
-                      i.far.fa-calendar-alt
-                      | {{ code.uploadTime }}
-                  .row
-                    span.icon
-                      i.fas.fa-link
-                      a.link(:href="code.url", target="_blank") {{ code.url }}
-                  .row
-                    span.icon
-                      i.fas.fa-tags
-                      .tag(v-for="(tag, index) in code.tags", :key="index", :class="{'acitve' : selectedTagsRegexp && tag.match(selectedTagsRegexp) }")
-                        | {{ tag }}
+                  .img(v-if="checkImage(code.url)")
+                    i.el-icon-loading
+                    img(:src="getImage(code.url)")
+                  .info
+                    .row
+                      span.icon.date
+                        i.far.fa-calendar-alt
+                        | {{ code.uploadTime }}
+                    .row
+                      span.icon
+                        i.fas.fa-link
+                        a.link(:href="code.url", target="_blank") {{ code.url }}
+                    .row
+                      span.icon
+                        i.fas.fa-tags
+                        .tag(v-for="(tag, index) in code.tags", :key="index", :class="{'acitve' : selectedTagsRegexp && tag.match(selectedTagsRegexp) }")
+                          | {{ tag }}
             el-pagination(
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-              :current-page.sync="currentPage"
               background="",
               layout="prev, pager, next",
+              @size-change="handleSizeChange",
+              @current-change="handleCurrentChange",
+              :current-page.sync="currentPage",
+              :pager-count="4",
               :total="filterData.length")
         el-tab-pane(label="參賽查詢", name="second")
           .filter
@@ -237,6 +242,12 @@ export default {
         })
         .catch(err => console.log(err))
     },
+    checkImage(url) {
+      return url.match(/(?=.*codepen\.io)(?=\/.*pen|full|detail).*/gi)
+    },
+    getImage(url) {
+      return `${url.replace(/\?editor.*/gi, '').replace(/\/full|\/details/gi, '/pen')}/image/small.png`
+    },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -263,11 +274,11 @@ export default {
   .header {
     margin-bottom: 30px;
     .title {
+      display: flex;
+      justify-content: center;
       color: #00cd98;
       font-weight: 900;
       font-size: 30px;
-      display: flex;
-      justify-content: center;
     }
     .subtitle {
       font-size: 22px;
@@ -324,9 +335,34 @@ export default {
   .card {
     margin: 10px 0px;
     padding: 10px;
+    .el-card__body {
+      display: flex;
+      align-items: center;
+    }
     .row:not(:last-child) {
       overflow: hidden;
       margin-bottom: 16px;
+    }
+    .img {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 20px;
+      width: 150px;
+      height: 100px;
+      i {
+        color: #00cd98;
+      }
+      img {
+        position: absolute;
+        margin-right: 20px;
+        width: 150px;
+        height: 100px;
+      }
+    }
+    .info {
+      width: 100%;
     }
     .link {
       color: #00cd98;
@@ -360,6 +396,7 @@ export default {
       font-size: 14px;
       a {
         color: #4d6277;
+        word-wrap: break-word;
         font-weight: 400;
         font-size: 16px;
         &:hover {
@@ -382,7 +419,6 @@ export default {
     .email {
       width: 250px;
     }
-
   }
   // Footer
   .guahsu {
@@ -395,6 +431,28 @@ export default {
     }
   }
 
+  @media screen and (max-width: 720px) {
+    .card {
+      margin: 10px 0px;
+      padding: 10px;
+      .el-card__body {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
+      .img {
+        margin-right: 0;
+        margin-bottom: 20px;
+        width: 200px;
+        height: 100px;
+        img {
+          margin-bottom: 20px;
+          width: 200px;
+          height: 100%;
+        }
+      }
+    }
+  }
   @media screen and (max-width: 480px) {
     .header {
       margin-bottom: 20px;
@@ -406,6 +464,9 @@ export default {
       .subtitle {
         font-size: 20px;
       }
+    }
+    .el-tabs__content {
+      padding: 20px 0px;
     }
   }
 }
