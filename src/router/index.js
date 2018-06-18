@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Index from '@/components/Index'
 import TodoList from '@/components/TodoList'
 import Filter from '@/components/Filter'
+import AdminOrder from '@/components/AdminOrder'
 
 Vue.use(Router)
 
@@ -22,6 +23,11 @@ export default new Router({
       path: '/2/filter',
       name: 'Filter',
       component: Filter
+    },
+    {
+      path: '/3/admin_order',
+      name: 'AdminOrder',
+      component: AdminOrder
     }
   ]
 })
