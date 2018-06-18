@@ -42,7 +42,7 @@
                 el-card.card(shadow="hover", v-for="(code, index) in codeList", :key="index")
                   .img(v-if="checkImage(code.url)")
                     i.el-icon-loading
-                    img(:src="getImage(code.url)")
+                    img(:src="getImage(code.url)", onerror="this.onerror=null;this.src='https://s3-us-west-2.amazonaws.com/m.cdpn.io/default-project-screenshot-small.png'")
                   .info
                     .row
                       span.icon.date
@@ -243,7 +243,7 @@ export default {
         .catch(err => console.log(err))
     },
     checkImage(url) {
-      return url.match(/(?=.*codepen\.io)(?=\/.*pen|full|detail).*/gi)
+      return url.match(/(?=.*codepen\.io)(.*\/pen|.*\/full|.*\/details)/gi)
     },
     getImage(url) {
       return `${url.replace(/\?editor.*/gi, '').replace(/\/full|\/details/gi, '/pen')}/image/small.png`
