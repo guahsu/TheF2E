@@ -74,7 +74,7 @@
             el-card.card(shadow="never")
               h2 Latest Orders
               .card-latestOrder
-                img.img
+                img.img(src="https://fakeimg.pl/100x100/")
                 .info
                   .row
                     .name
@@ -92,7 +92,7 @@
                     span.amount
                       | 3,200
               .card-latestOrder
-                img.img
+                img.img(src="https://fakeimg.pl/100x100/")
                 .info
                   .row
                     .name
@@ -110,7 +110,7 @@
                     span.amount
                       | 3,200
               .card-latestOrder
-                img.img
+                img.img(src="https://fakeimg.pl/100x100/")
                 .info
                   .row
                     .name
@@ -138,7 +138,51 @@ export default {
   name: 'adminOrder',
   data() {
     return {
-      activeName: 'home'
+      activeName: 'home',
+      tableData6: [
+        {
+          id: '12987121',
+          name: '王小虎',
+          amount1: '165',
+          amount2: '4.43',
+          amount3: 12
+        },
+        {
+          id: '12987122',
+          name: '王小虎',
+          amount1: '234',
+          amount2: '3.2',
+          amount3: 10
+        },
+        {
+          id: '12987123',
+          name: '王小虎',
+          amount1: '165',
+          amount2: '4.43',
+          amount3: 12
+        },
+        {
+          id: '12987124',
+          name: '王小虎',
+          amount1: '324',
+          amount2: '1.9',
+          amount3: 9
+        },
+        {
+          id: '12987125',
+          name: '王小虎',
+          amount1: '621',
+          amount2: '2.2',
+          amount3: 17
+        },
+        {
+          id: '12987126',
+          name: '王小虎',
+          amount1: '539',
+          amount2: '4.1',
+          amount3: 15
+        }
+      ]
     }
   },
   mounted() {
@@ -172,6 +216,21 @@ export default {
           enabled: false
         }
       })
+    },
+    objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+      if (columnIndex === 1) {
+        if (rowIndex % 2 === 0) {
+          return {
+            rowspan: 2,
+            colspan: 1
+          }
+        } else {
+          return {
+            rowspan: 0,
+            colspan: 0
+          }
+        }
+      }
     }
   }
 }
@@ -212,6 +271,9 @@ export default {
   }
   .el-card__body {
     width: 100%;
+    h2 {
+      margin-bottom: 20px;
+    }
   }
   .card {
     display: flex;
@@ -248,16 +310,17 @@ export default {
         color: #4a90e2;
       }
     }
-    &-website:not(:last-child),
-    &-latestOrder:not(:last-child) {
+    &-website:not(:last-child) {
+      padding-bottom: 8px;
       border-bottom: 1px solid #ebebeb;
+      margin-bottom: 24px;
     }
     &-website {
       display: flex;
       align-items: center;
       justify-content: flex-start;
       span {
-        margin: 20px 10px 24px 0;
+        margin: 0 10px 14px 0;
         &.name {
           flex: 4;
           color: #9b9b9b;
@@ -292,11 +355,15 @@ export default {
         }
       }
     }
+    &-latestOrder:not(:last-child) {
+      padding-bottom: 8px;
+      border-bottom: 1px solid #ebebeb;
+    }
     &-latestOrder {
-      margin: 20px 10px 20px 0;
       display: flex;
       align-items: center;
       justify-content: flex-start;
+      margin-top: 8px;
       .img {
         width: 100px;
         height: 100px;
@@ -319,21 +386,31 @@ export default {
         }
         .time {
           svg {
-            font-size: 10px;
+            font-size: 14px;
             margin-right: 8px;
+            color: #757575;
           }
         }
         .user {
           svg {
-            font-size: 10px;
-            margin-left: 3px;
+            font-size: 14px;
+            margin-left: 4px;
             margin-right: 12px;
+            color: #757575;
           }
         }
-        .total,
+        .total {
+          position: absolute;
+          right: 0;
+          font-size: 14px;
+          color: #000000;
+        }
         .amount {
           position: absolute;
           right: 0;
+          font-size: 20px;
+          font-weight: 900;
+          color: #000000;
         }
       }
     }
