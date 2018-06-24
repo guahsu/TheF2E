@@ -29,4 +29,7 @@
 2. [CODE](https://github.com/guahsu/TheF2E/blob/master/src/components/AdminOrder.vue)  
 3. [DEMO](https://guahsu.github.io/TheF2E/dist/index.html#/3/admin_order)  
 
-製作中...只粗切第一個頁面而已..週末找時間繼續拼完！
+這週僅有短短的時間可以做UI，全用elementUI來刻  
+做得有點急，週一看到題目時還想說可以套filebase來玩..  
+但真是一天時間不夠用啊Ｑ＿＿＿Ｑ
+

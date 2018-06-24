@@ -3,11 +3,14 @@
     el-tabs.container(v-model="activeName")
       //-
       el-tab-pane(label="HOME", name="home")
-        el-row.title(:gutter="10")
-          el-col(:sm="18")
+        el-row.title(:gutter="0")
+          el-col(:sm="11")
             h2 OVERVIEW
-          el-col(:sm="6")
-            | 2016/06/06
+          el-col(:sm="9")
+            el-date-picker(v-model="homeDateRange", type="daterange", range-separator="to", start-placeholder="start date", end-placeholder="end date")
+          el-col(:sm="4")
+            el-select(v-model="homeDateType", placeholder="請選擇")
+              el-option(v-for="item in homeDateTypes", :key="item.value", :label="item.label", :value="item.value")
         el-row(:gutter="20")
           el-col(:sm="8")
             el-card.card(shadow="never")
@@ -128,8 +131,133 @@
                     span.amount
                       | 3,200
       //-
-      el-tab-pane(label="ORDERS", name="orders")
-      el-tab-pane(label="PRODUCT", name="produce")
+      el-tab-pane#orders(label="ORDERS", name="orders")
+        el-row.title(:gutter="0")
+          el-col(:sm="24")
+            h2 Ordrrs
+        el-row.order-table
+          el-col(:sm="24")
+            el-table(:data="orderData", style="width: 100%", :stripe="true", header-cell-class-name="order-table-head")
+              el-table-column(label="Customer", width="140", align="center")
+                template(slot-scope="scope")
+                  i.far.fa-check-square
+                  span(style="margin-left: 10px") {{ scope.row.customerName }}
+              el-table-column(label="Product List", width="160")
+                template(slot-scope="scope")
+                  table.order-table-products
+                    template(v-for="data in scope.row.productList")
+                      tr
+                        td.order-table-products-name(colspan="2") {{ data.name }}
+                        td
+                      tr
+                        td.order-table-products-price(colspan="2") ${{ data.price.toLocaleString() }}
+                        td.order-table-products-count {{ data.qty.toLocaleString() }}
+              el-table-column(label="Total", prop="total", width="100", align="right")
+                template(slot-scope="scope") ${{ scope.row.total.toLocaleString() }}
+              el-table-column(label="Add to Cart", prop="addTime", width="110")
+              el-table-column(label="Check-out", prop="checkoutTime", width="110")
+              el-table-column(label="Address", prop="address", width="220")
+              el-table-column(label="status", align="center", width="100")
+                template(slot-scope="scope")
+                  el-select(v-model="orderStatus", placeholder="請選擇")
+                    el-option(v-for="item in orderStatusType", :key="item.value", :label="item.label", :value="item.value")
+          el-col(:sm="24").page
+            el-pagination(layout="prev, pager, next", :total="50", background)
+      //-
+      el-tab-pane#products(label="PRODUCT", name="product")
+        el-row.title(:gutter="0")
+          el-col(:sm="18")
+            h2 Products
+          el-col.buttons(:sm="6")
+            el-button(type='primary', @click="dialogTableVisible = true") Add Product
+        el-row.product-table
+          el-col(:sm="24")
+            el-table(:data="productData", style="width: 100%", :stripe="true", header-cell-class-name="product-table-head")
+              el-table-column(label="Product", width="260", align="center")
+                .product-table-name(slot-scope="scope")
+                  i.far.fa-check-square
+                  img(:src="scope.row.image")
+                  span(style="margin-left: 10px") {{ scope.row.productName }}
+              el-table-column(label="Original", prop="total", width="100", align="right")
+                template(slot-scope="scope") ${{ scope.row.originPrice.toLocaleString() }}
+              el-table-column(label="Discount", prop="total", width="100", align="right")
+                template(slot-scope="scope") ${{ scope.row.discountPrice.toLocaleString() }}
+              el-table-column(label="Size / Color / Inventory", width="400", align="center")
+                template(slot-scope="scope")
+                  table.product-table-info
+                    template(v-for="data in scope.row.options")
+                      tr
+                        td.product-table-info-size
+                          span {{ data.size }}
+                        td.product-table-info-color
+                          div(v-for="(color, index) in data.color" :key="index")
+                            | {{ color }}
+                        td.product-table-info-inventory
+                          div(v-for="(value, index) in data.inventory" :key="index")
+                            | {{ value }}
+              el-table-column(label="status", align="center", width="100")
+                template(slot-scope="scope")
+                  el-select(v-model="orderStatus", placeholder="請選擇")
+                    el-option(v-for="item in orderStatusType", :key="item.value", :label="item.label", :value="item.value")
+          el-col(:sm="24").page
+            el-pagination(layout="prev, pager, next", :total="50", background)
+        <el-dialog title="Add New Product" custom-class="product-add" :visible.sync="dialogTableVisible">
+          el-row(:gutter="30")
+            el-col.upload-area(:sm="10")
+              .upload-area-file
+                i.fas.fa-cloud-upload-alt
+                span Drag an image or click here to upload…
+              el-row(:gutter="8").upload-area-images
+                el-col(:sm="8")
+                  img(src="https://fakeimg.pl/120x120/")
+                el-col(:sm="8")
+                  img(src="https://fakeimg.pl/120x120/")
+                el-col(:sm="8")
+                  img(src="https://fakeimg.pl/120x120/")
+                el-col(:sm="8")
+                  img(src="https://fakeimg.pl/120x120/")
+                el-col(:sm="8")
+                  img(src="https://fakeimg.pl/120x120/")
+            el-col.info-area(:sm="14")
+              .info-area-title Product Discription
+              el-input.info-area-name(v-model='input', placeholder='product name')
+              el-input.info-area-desc(type='textarea', :rows='5', placeholder='product desc', v-model='textarea')
+              .info-area-title Price
+              el-row(:gutter="8").info-area-prices
+                el-col(:sm="12")
+                  el-input(placeholder='0', v-model='input3')
+                    template(slot='prepend') Original
+                el-col(:sm="12")
+                  el-input(placeholder='0', v-model='input3')
+                    template(slot='prepend') Discount
+              .info-area-title Specification
+              el-row(:gutter="8").info-area-specs
+                el-col(:sm="8")
+                  el-input(placeholder='0', v-model='input3')
+                    template(slot='prepend') Size
+                el-col(:sm="8")
+                  el-input(placeholder='0', v-model='input3')
+                    template(slot='prepend') Color
+                el-col(:sm="8")
+                  el-input(placeholder='0', v-model='input3')
+                    template(slot='prepend') Inventory
+              el-row(:gutter="8").info-area-specs
+                el-col(:sm="8")
+                  el-input(placeholder='0', v-model='input3')
+                    template(slot='prepend') Size
+                el-col(:sm="8")
+                  el-input(placeholder='0', v-model='input3')
+                    template(slot='prepend') Color
+                el-col(:sm="8")
+                  el-input(placeholder='0', v-model='input3')
+                    template(slot='prepend') Inventory
+              el-row
+                el-col(:sm="24")
+                el-button.info-area-specs-add(type='primary') ADD NEW SPECIFICATION
+              .info-area-buttons
+                  el-button(type='text') SAVE DRAFT
+                  el-button(type='primary') PUBLISH
+        </el-dialog>
 </template>
 
 <script>
@@ -139,50 +267,294 @@ export default {
   data() {
     return {
       activeName: 'home',
-      tableData6: [
+      homeDateRange: ['2018-06-01', '2018-06-20'],
+      homeDateType: 'Monthly',
+      homeDateTypes: [
         {
-          id: '12987121',
-          name: '王小虎',
-          amount1: '165',
-          amount2: '4.43',
-          amount3: 12
+          value: 'daily',
+          label: 'Daily'
         },
         {
-          id: '12987122',
-          name: '王小虎',
-          amount1: '234',
-          amount2: '3.2',
-          amount3: 10
+          value: 'weekly',
+          label: 'Weelky'
         },
         {
-          id: '12987123',
-          name: '王小虎',
-          amount1: '165',
-          amount2: '4.43',
-          amount3: 12
+          value: 'Monthly',
+          label: 'Monthly'
         },
         {
-          id: '12987124',
-          name: '王小虎',
-          amount1: '324',
-          amount2: '1.9',
-          amount3: 9
+          value: 'yearly',
+          label: 'Yearly'
         },
         {
-          id: '12987125',
-          name: '王小虎',
-          amount1: '621',
-          amount2: '2.2',
-          amount3: 17
-        },
-        {
-          id: '12987126',
-          name: '王小虎',
-          amount1: '539',
-          amount2: '4.1',
-          amount3: 15
+          value: 'custom',
+          label: 'Custom'
         }
-      ]
+      ],
+      orderStatus: 'done',
+      orderStatusType: [
+        {
+          value: 'paid',
+          label: 'Paid'
+        },
+        {
+          value: 'unpaid',
+          label: 'Unpaid'
+        },
+        {
+          value: 'shipping',
+          label: 'Shipping'
+        },
+        {
+          value: 'done',
+          label: 'Done'
+        }
+      ],
+      orderData: [
+        {
+          customerName: 'IanMedina',
+          productList: [
+            {
+              name: 'Fusce vehicu.',
+              price: 800,
+              qty: 1
+            }
+          ],
+          total: 2200,
+          addTime: '2018-06-08 13:39',
+          checkoutTime: '2018-06-08 20:23',
+          address: '386 Windler Drives Apt. 358'
+        },
+        {
+          customerName: 'IanMedina',
+          productList: [
+            {
+              name: 'Vestibulum.',
+              price: 1400,
+              qty: 1
+            },
+            {
+              name: 'Fusce vehicu.',
+              price: 800,
+              qty: 1
+            }
+          ],
+          total: 2200,
+          addTime: '2018-06-08 13:39',
+          checkoutTime: '2018-06-08 20:23',
+          address: '386 Windler Drives Apt. 358'
+        },
+        {
+          customerName: 'IanMedina',
+          productList: [
+            {
+              name: 'Vestibulum.',
+              price: 1400,
+              qty: 1
+            },
+            {
+              name: 'Fusce vehicu.',
+              price: 800,
+              qty: 1
+            }
+          ],
+          total: 2200,
+          addTime: '2018-06-08 13:39',
+          checkoutTime: '2018-06-08 20:23',
+          address: '386 Windler Drives Apt. 358'
+        },
+        {
+          customerName: 'IanMedina',
+          productList: [
+            {
+              name: 'Vestibulum.',
+              price: 1400,
+              qty: 1
+            },
+            {
+              name: 'Fusce vehicu.',
+              price: 800,
+              qty: 1
+            },
+            {
+              name: 'Fusce vehicu.',
+              price: 800,
+              qty: 1
+            }
+          ],
+          total: 2200,
+          addTime: '2018-06-08 13:39',
+          checkoutTime: '2018-06-08 20:23',
+          address: '386 Windler Drives Apt. 358'
+        },
+        {
+          customerName: 'IanMedina',
+          productList: [
+            {
+              name: 'Vestibulum.',
+              price: 1400,
+              qty: 1
+            },
+            {
+              name: 'Fusce vehicu.',
+              price: 800,
+              qty: 1
+            }
+          ],
+          total: 2200,
+          addTime: '2018-06-08 13:39',
+          checkoutTime: '2018-06-08 20:23',
+          address: '386 Windler Drives Apt. 358'
+        },
+        {
+          customerName: 'IanMedina',
+          productList: [
+            {
+              name: 'Vestibulum.',
+              price: 1400,
+              qty: 1
+            },
+            {
+              name: 'Fusce vehicu.',
+              price: 800,
+              qty: 1
+            }
+          ],
+          total: 2200,
+          addTime: '2018-06-08 13:39',
+          checkoutTime: '2018-06-08 20:23',
+          address: '386 Windler Drives Apt. 358'
+        },
+        {
+          customerName: 'IanMedina',
+          productList: [
+            {
+              name: 'Vestibulum.',
+              price: 1400,
+              qty: 1
+            },
+            {
+              name: 'Fusce vehicu.',
+              price: 800,
+              qty: 1
+            }
+          ],
+          total: 2200,
+          addTime: '2018-06-08 13:39',
+          checkoutTime: '2018-06-08 20:23',
+          address: '386 Windler Drives Apt. 358'
+        },
+        {
+          customerName: 'IanMedina',
+          productList: [
+            {
+              name: 'Vestibulum.',
+              price: 1400,
+              qty: 1
+            }
+          ],
+          total: 2200,
+          addTime: '2018-06-08 13:39',
+          checkoutTime: '2018-06-08 20:23',
+          address: '386 Windler Drives Apt. 358'
+        }
+      ],
+      productData: [
+        {
+          image: 'https://fakeimg.pl/50x50/',
+          productName: 'Mauris non tem.',
+          originPrice: 3200,
+          discountPrice: 2800,
+          options: [
+            {
+              size: 'L',
+              color: ['Gray', 'Black'],
+              inventory: [15, 20]
+            },
+            {
+              size: 'M',
+              color: ['Gray', 'Black'],
+              inventory: [15, 20]
+            },
+            {
+              size: 'S',
+              color: ['Gray', 'Black'],
+              inventory: [15, 20]
+            }
+          ]
+        },
+        {
+          image: 'https://fakeimg.pl/50x50/',
+          productName: 'Mauris non tem.',
+          originPrice: 3200,
+          discountPrice: 2800,
+          options: [
+            {
+              size: 'L',
+              color: ['Gray', 'Black'],
+              inventory: [15, 20]
+            },
+            {
+              size: 'M',
+              color: ['Gray', 'Black'],
+              inventory: [15, 20]
+            },
+            {
+              size: 'S',
+              color: ['Gray', 'Black'],
+              inventory: [15, 20]
+            }
+          ]
+        },
+        {
+          image: 'https://fakeimg.pl/50x50/',
+          productName: 'Mauris non tem.',
+          originPrice: 3200,
+          discountPrice: 2800,
+          options: [
+            {
+              size: 'L',
+              color: ['Gray', 'Black'],
+              inventory: [15, 20]
+            },
+            {
+              size: 'M',
+              color: ['Gray', 'Black'],
+              inventory: [15, 20]
+            },
+            {
+              size: 'S',
+              color: ['Gray', 'Black'],
+              inventory: [15, 20]
+            }
+          ]
+        },
+        {
+          image: 'https://fakeimg.pl/50x50/',
+          productName: 'Mauris non tem.',
+          originPrice: 3200,
+          discountPrice: 2800,
+          options: [
+            {
+              size: 'L',
+              color: ['Gray', 'Black'],
+              inventory: [15, 20]
+            },
+            {
+              size: 'M',
+              color: ['Gray', 'Black'],
+              inventory: [15, 20]
+            },
+            {
+              size: 'S',
+              color: ['Gray', 'Black'],
+              inventory: [15, 20]
+            }
+          ]
+        }
+      ],
+      dialogTableVisible: false,
+      addInput: ''
     }
   },
   mounted() {
@@ -238,9 +610,6 @@ export default {
 
 <style lang="scss">
 #AdminOrder {
-  * {
-    box-sizing: border-box;
-  }
   display: flex;
   align-items: center;
   justify-content: center;
@@ -248,6 +617,9 @@ export default {
   padding: 0 50px;
   width: 100%;
   background: #f2f2f2;
+  * {
+    box-sizing: border-box;
+  }
   h2 {
     margin: 0;
   }
@@ -311,9 +683,9 @@ export default {
       }
     }
     &-website:not(:last-child) {
+      margin-bottom: 24px;
       padding-bottom: 8px;
       border-bottom: 1px solid #ebebeb;
-      margin-bottom: 24px;
     }
     &-website {
       display: flex;
@@ -327,8 +699,8 @@ export default {
           font-size: 16px;
         }
         &.value {
-          margin-right: 20px;
           flex: 2;
+          margin-right: 20px;
           color: #000000;
           text-align: right;
           font-size: 20px;
@@ -370,48 +742,158 @@ export default {
         background-color: #333;
       }
       .info {
-        width: 60%;
         margin-left: 20px;
-        font-size: 16px;
+        width: 60%;
         color: #9b9b9b;
+        font-size: 16px;
         .row {
           position: relative;
-          width: 100%;
           margin-bottom: 8px;
+          width: 100%;
         }
         .name {
-          font-size: 20px;
           color: #000000;
           font-weight: 900;
+          font-size: 20px;
         }
         .time {
           svg {
-            font-size: 14px;
             margin-right: 8px;
             color: #757575;
+            font-size: 14px;
           }
         }
         .user {
           svg {
-            font-size: 14px;
-            margin-left: 4px;
             margin-right: 12px;
+            margin-left: 4px;
             color: #757575;
+            font-size: 14px;
           }
         }
         .total {
           position: absolute;
           right: 0;
-          font-size: 14px;
           color: #000000;
+          font-size: 14px;
         }
         .amount {
           position: absolute;
           right: 0;
-          font-size: 20px;
-          font-weight: 900;
           color: #000000;
+          font-weight: 900;
+          font-size: 20px;
         }
+      }
+    }
+  }
+  .el-table--enable-row-hover .el-table__body tr:hover > td,
+  .el-table--striped .el-table__body tr.el-table__row--striped.current-row td,
+  .el-table__body tr.current-row > td {
+    background: none;
+  }
+  .page {
+    margin: 20px 0;
+    text-align: right;
+  }
+  #orders {
+    .order-table {
+      &-head {
+        color: #000000;
+        font-size: 16px;
+      }
+      &-products {
+        width: 100%;
+        border: none !important;
+        line-height: 0.8;
+        tr:nth-child(odd) > td {
+          padding-top: 20px;
+          border: none !important;
+          line-height: 0;
+        }
+        &-name {
+        }
+        &-price {
+          color: #9b9b9b;
+          font-size: 14px;
+          line-height: 21px;
+        }
+      }
+    }
+  }
+  #products {
+    .buttons {
+      text-align: right;
+    }
+    .product-add {
+      min-width: 400px;
+      width: 70%;
+      .upload-area {
+        &-file {
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          justify-content: center;
+          margin-bottom: 8px;
+          height: 115px;
+          background: #ebebeb;
+          color: #757575;
+          font-weight: 700;
+          font-size: 16px;
+          line-height: 24px;
+          cursor: pointer;
+          svg {
+            margin-bottom: 10px;
+            font-size: 40px;
+          }
+        }
+        &-images {
+          img {
+            margin-bottom: 4px;
+          }
+        }
+      }
+      .info-area {
+        &-title {
+          color: #373a3c;
+          text-align: left;
+          letter-spacing: 0;
+          font-size: 16px;
+          font-weight: 700;
+          margin-bottom: 8px;
+        }
+        &-name, &-prices, &-specs {
+          margin-bottom: 8px;
+        }
+        &-desc {
+          margin-bottom: 20px;
+        }
+        &-specs-add {
+          width: 100%;
+          margin-bottom: 40px;
+        }
+        &-buttons {
+          text-align: right;
+        }
+      }
+    }
+    .product-table {
+      &-head {
+        color: #000000;
+        font-size: 16px;
+      }
+      &-name {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+          margin-left: 15px;
+          width: 50px;
+          height: 50px;
+        }
+      }
+      td {
+        width: 130px;
       }
     }
   }
