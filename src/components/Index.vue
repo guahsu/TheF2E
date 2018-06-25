@@ -126,6 +126,10 @@ export default {
         {
           value: 3,
           label: '3 - Admin Order'
+        },
+        {
+          value: 4,
+          label: '4 - Product Gallery'
         }
       ],
       currentPage: 1,
