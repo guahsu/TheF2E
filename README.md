@@ -33,3 +33,10 @@
 做得有點急，週一看到題目時還想說可以套filebase來玩..  
 但真是一天時間不夠用啊Ｑ＿＿＿Ｑ
 
+### 第四週 - Product Gallery
+1. [設計稿](https://hexschool.github.io/THE_F2E_Design/week4-product%20gallery/)
+2. [CODE](https://github.com/guahsu/TheF2E/blob/master/src/components/ProductGallery.vue)  
+3. [DEMO](https://guahsu.github.io/TheF2E/dist/index.html#/4/product_gallery)  
+
+第一次實際操作Grid，覺得如果有對應的格線設計稿會非常好用！！！  
+只先切了一個區塊就感到非常有趣，週末再來完成它！

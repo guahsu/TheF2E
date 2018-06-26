@@ -4,6 +4,7 @@ import Index from '@/components/Index'
 import TodoList from '@/components/TodoList'
 import Filter from '@/components/Filter'
 import AdminOrder from '@/components/AdminOrder'
+import ProductGallery from '@/components/ProductGallery'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/3/admin_order',
       name: 'AdminOrder',
       component: AdminOrder
+    },
+    {
+      path: '/4/product_gallery',
+      name: 'ProductGallery',
+      component: ProductGallery
     }
   ]
 })
