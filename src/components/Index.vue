@@ -423,6 +423,9 @@ export default {
     .email {
       width: 250px;
     }
+    .el-card__body {
+      flex-direction: column;
+    }
   }
   // Footer
   .guahsu {
