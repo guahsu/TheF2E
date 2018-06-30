@@ -26,7 +26,6 @@
               i.checkbox--unchecked.fas.fa-square
             input(:id="category.name" v-model='category.checked', type='checkbox')
             label(:for="category.name") {{ category.name }}
-        a.guahsu(href="https://github.com/guahsu/TheF2E", target="_blank") https://github.com/guahsu/TheF2E
       .content
         .info
           | Showing
@@ -160,10 +159,6 @@ export default {
       flex-direction: column;
       height: 100%;
       text-align: center;
-      .guahsu {
-        margin-top: 20px;
-        font-weight: 900;
-      }
       .filter {
         padding: 24px 40px;
         width: 300px;

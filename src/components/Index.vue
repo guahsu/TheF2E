@@ -87,12 +87,6 @@
                 .row
                   span.icon
                     .tag.profile-tag(v-for="(tag, index) in item.tags", :key="index") {{ tag }}
-    el-footer.guahsu
-      | Create By GuaHsu
-      br
-      | (
-      a(href="https://github.com/guahsu/TheF2E", target="_blank") https://github.com/guahsu/TheF2E
-      | )
 </template>
 
 <script>
@@ -425,16 +419,6 @@ export default {
     }
     .el-card__body {
       flex-direction: column;
-    }
-  }
-  // Footer
-  .guahsu {
-    padding: 30px 0 100px 0 !important;
-    border-top: 1px solid #00cd98;
-    font-weight: 900;
-    a {
-      color: #00cd98;
-      text-decoration: none;
     }
   }
 
