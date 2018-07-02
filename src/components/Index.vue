@@ -124,6 +124,10 @@ export default {
         {
           value: 4,
           label: '4 - Product Gallery'
+        },
+        {
+          value: 5,
+          label: '5 - Comic Viewer'
         }
       ],
       currentPage: 1,
