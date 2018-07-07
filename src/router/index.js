@@ -1,10 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Index from '@/components/Index'
-import TodoList from '@/components/TodoList'
-import Filter from '@/components/Filter'
-import AdminOrder from '@/components/AdminOrder'
-import ProductGallery from '@/components/ProductGallery'
 
 Vue.use(Router)
 
@@ -13,27 +8,32 @@ export default new Router({
     {
       path: '/',
       name: 'Index',
-      component: Index
+      component: () => import('@/components/Index')
     },
     {
       path: '/1/todolist',
       name: 'TodoList',
-      component: TodoList
+      component: () => import('@/components/TodoList')
     },
     {
       path: '/2/filter',
       name: 'Filter',
-      component: Filter
+      component: () => import('@/components/Filter')
     },
     {
       path: '/3/admin_order',
       name: 'AdminOrder',
-      component: AdminOrder
+      component: () => import('@/components/AdminOrder')
     },
     {
       path: '/4/product_gallery',
       name: 'ProductGallery',
-      component: ProductGallery
+      component: () => import('@/components/ProductGallery')
+    },
+    {
+      path: '/5/comic_viewer',
+      name: 'ComicViewer',
+      component: () => import('@/components/ComicViewer')
     }
   ]
 })
