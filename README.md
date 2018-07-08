@@ -41,3 +41,11 @@
 非常有趣的設計排版練習，也是第一次實際使用Grid來做切版，  
 做到第三個區塊發現css的重複性很高，就改採用`@mixin`來做全部的版面應用！  
 這次大量的練習了Grid & SCSS，覺得進步滿多的:D
+
+### 第五週 - Comic Viewer
+1. [設計稿](https://hexschool.github.io/THE_F2E_Design/week5-comic%20viewer/)
+2. [CODE](https://github.com/guahsu/TheF2E/blob/master/src/components/ComicViewer.vue)  
+3. [DEMO](https://guahsu.github.io/TheF2E/dist/index.html#/5/comic_viewer)  
+
+這週非常忙碌..假日只擠出一點點時間做，  
+切了個基本的框框而已，程式可說是幾乎沒套到Q_Q
