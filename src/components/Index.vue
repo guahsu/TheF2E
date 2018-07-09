@@ -128,6 +128,10 @@ export default {
         {
           value: 5,
           label: '5 - Comic Viewer'
+        },
+        {
+          value: 6,
+          label: '6 - Validation'
         }
       ],
       currentPage: 1,
