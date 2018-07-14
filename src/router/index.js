@@ -34,6 +34,11 @@ export default new Router({
       path: '/5/comic_viewer',
       name: 'ComicViewer',
       component: () => import('@/components/ComicViewer')
+    },
+    {
+      path: '/6/validation',
+      name: 'Validation',
+      component: () => import('@/components/Validation')
     }
   ]
 })

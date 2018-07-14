@@ -31,7 +31,7 @@ export default {
   // Footer
   .guahsu {
     position: absolute;
-    width: 50%;
+    width: 90%;
     bottom: 0;
     padding: 30px 0 100px 0 !important;
     border-top: 1px solid #00cd98;

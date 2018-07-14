@@ -49,3 +49,15 @@
 
 這週非常忙碌..假日只擠出一點點時間做，  
 切了個基本的框框而已，程式可說是幾乎沒套到Q_Q
+
+### 第六週 - Validation
+1. [設計稿](https://hexschool.github.io/THE_F2E_Design/week6-validation/)
+2. [CODE](https://github.com/guahsu/TheF2E/blob/master/src/components/Validation.vue)  
+3. [DEMO](https://guahsu.github.io/TheF2E/dist/index.html#/6/validation)  
+
+使用element ui來做，發現element的驗證還算滿方便的，  
+縣市鄉鎮區選單選用`Cascader`來做滿方便的可搜尋，  
+不過因為時間不夠(懶著整理格式)..只寫了幾區來展示，  
+也是時間緊繃的一週，偷了一個信用卡欄位頁面沒寫XD。
+
+
