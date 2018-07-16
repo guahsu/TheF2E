@@ -132,6 +132,10 @@ export default {
         {
           value: 6,
           label: '6 - Validation'
+        },
+        {
+          value: 7,
+          label: '7 - Canvas Game'
         }
       ],
       currentPage: 1,
