@@ -39,6 +39,11 @@ export default new Router({
       path: '/6/validation',
       name: 'Validation',
       component: () => import('@/components/Validation')
+    },
+    {
+      path: '/7/canvas_game',
+      name: 'CanvasGame',
+      component: () => import('@/components/CanvasGame/stage')
     }
   ]
 })

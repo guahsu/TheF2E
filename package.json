@@ -21,6 +21,7 @@
     "highcharts": "^6.1.0",
     "node-sass": "^4.9.0",
     "normalize.css": "^8.0.0",
+    "pixi.js": "^4.8.1",
     "pug": "^2.0.3",
     "pug-filters": "^3.1.0",
     "pug-loader": "^2.4.0",

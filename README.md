@@ -60,4 +60,14 @@
 不過因為時間不夠(懶著整理格式)..只寫了幾區來展示，  
 也是時間緊繃的一週，偷了一個信用卡欄位頁面沒寫XD。
 
+### 第七週 - Canvas Game
+1. [設計稿](https://hackmd.io/N5yEjm2vSx6D41qAbJGDmw/)
+2. [CODE](https://github.com/guahsu/TheF2E/blob/master/src/components/CanvasGame/stage.vue)  
+3. [DEMO](https://guahsu.github.io/TheF2E/dist/index.html#/7/canvas_game)  
+
+大神吳哲宇老師出的設計稿，  
+這周排程超滿...遇到這麼難的題目整個崩潰XDDDD  
+第一次研究pixi，只做出了個入門都不太到邊的東西(?)先頂著交作業，  
+只能等有空再來調整了...也希望週三能趕得上老師的直播。
+
 
