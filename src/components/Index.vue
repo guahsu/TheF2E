@@ -136,6 +136,10 @@ export default {
         {
           value: 7,
           label: '7 - Canvas Game'
+        },
+        {
+          value: 8,
+          label: '8 - Parallax Scrolling'
         }
       ],
       currentPage: 1,
