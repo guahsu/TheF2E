@@ -1,7 +1,7 @@
 <template lang="pug">
   #app
     router-view
-    el-footer.guahsu
+    el-footer.guahsu(v-if="showFooter")
       | Create By GuaHsu
       br
       | (
@@ -11,7 +11,12 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  computed: {
+    showFooter() {
+      return !this.$route.path.match(/parallax_scrolling/)
+    }
+  }
 }
 </script>
 

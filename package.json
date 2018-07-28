@@ -18,6 +18,7 @@
     "axios": "^0.18.0",
     "element-ui": "^2.4.1",
     "font-awesome": "^4.7.0",
+    "gsap": "^2.0.1",
     "highcharts": "^6.1.0",
     "node-sass": "^4.9.0",
     "normalize.css": "^8.0.0",

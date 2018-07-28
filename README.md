@@ -70,4 +70,15 @@
 第一次研究pixi，只做出了個入門都不太到邊的東西(?)先頂著交作業，  
 只能等有空再來調整了...也希望週三能趕得上老師的直播。
 
+### 第八週 - Canvas Game
+1. [設計稿](https://hexschool.github.io/THE_F2E_Design/week8-parallax%20scrolling/)
+2. [CODE](https://github.com/guahsu/TheF2E/blob/master/src/components/ParallaxScrolling.vue)  
+3. [DEMO](https://guahsu.github.io/TheF2E/dist/index.html#/8/parallax_scrolling)  
+
+又是一個初體驗 `TweenLineMax`  
+整個週六都在做這個，一玩就停不下來一直寫，  
+最後做得整個跟設計稿不一樣了，改成隨機產花色的頁面(彌補上週沒做完遊戲的痛?)  
+
+比較特別的是因為我不太會用svg畫圖，  
+這次所有的形狀都是透過偽元素放`文字符號`&`-webkit-text-stroke`來做:D
 

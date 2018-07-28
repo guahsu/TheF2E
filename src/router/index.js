@@ -44,6 +44,11 @@ export default new Router({
       path: '/7/canvas_game',
       name: 'CanvasGame',
       component: () => import('@/components/CanvasGame/stage')
+    },
+    {
+      path: '/8/parallax_scrolling',
+      name: 'ParallaxScrolling',
+      component: () => import('@/components/ParallaxScrolling')
     }
   ]
 })
