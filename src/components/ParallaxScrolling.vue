@@ -18,7 +18,7 @@
         br
         | ☟
       .suits
-        template(v-for="index in 8")
+        template(v-for="index in 10")
           .heart(:class="{ 'solid': Math.round(Math.random()) }")
           .spade(:class="{ 'solid': Math.round(Math.random()) }")
           .diamond(:class="{ 'solid': Math.round(Math.random()) }")
@@ -146,26 +146,27 @@ export default {
         opacity: '0.8'
       })
       let timelines = []
-      for (let i = 0; i <= 32; i++) {
+      for (let i = 0; i <= 40; i++) {
         timelines.push(new TimelineMax())
       }
       timelines.forEach((timeline, index) => {
-        const startPosition = Math.random() * 1000 + 300
-        const endPosition = Math.random() * 1000 + startPosition
+        const windowHeight = window.innerHeight
+        const startPosition = Math.random() * (windowHeight * 3) + windowHeight
+        const endPosition = Math.random() * (windowHeight * 3) + startPosition
         timeline
           .set(`.page-process .suits > div:nth-child(${index})`, {
             y: `+=${startPosition}`
           })
           .to(`.page-process .suits > div:nth-child(${index})`, 1, {
             y: `-=${endPosition}`,
-            fontSize: '6vw'
+            fontSize: `${Math.random() * 15}vw`
           })
         if (index === timelines.length - 1) {
           timeline
-            .to(`.page-process > div`, 0.5, {
+            .to(`.page-process > div`, 1, {
               color: '#cbcbcb'
             })
-            .to(`.page-process > div`, 0.5, {
+            .to(`.page-process > div`, 1, {
               opacity: '0'
             })
         }
@@ -190,11 +191,11 @@ export default {
     resultAnimation() {
       let timeline = new TimelineMax()
       timeline
-        .to(`.page-result .suitName`, 1, {
-          opacity: '1'
-        })
         .to(`.page-result`, 1, {
           backgroundColor: this.randomSuit.match(/heart|diamond/) ? '#262c39' : '#bd0922'
+        })
+        .to(`.page-result .suitName`, 1, {
+          opacity: '1'
         })
         .to(`.page-result .suit`, 1, {
           fontSize: '100vh'
@@ -233,7 +234,7 @@ export default {
     font-size: $size;
     transition: inherit;
 
-    -webkit-text-stroke-width: 5px;
+    -webkit-text-stroke-width: 0.5vw;
     -webkit-text-stroke-color: $color;
     &::after {
       color: transparent;
@@ -341,9 +342,9 @@ export default {
         position: fixed;
         top: 20vh;
         left: 5vw;
-        font-size: 20vw;
         color: #fff;
         font-weight: 900;
+        font-size: 20vw;
         opacity: 0;
       }
       .suit {
