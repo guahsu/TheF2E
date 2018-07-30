@@ -49,6 +49,11 @@ export default new Router({
       path: '/8/parallax_scrolling',
       name: 'ParallaxScrolling',
       component: () => import('@/components/ParallaxScrolling')
+    },
+    {
+      path: '/9/skill_tree',
+      name: 'SkillTree',
+      component: () => import('@/components/SkillTree')
     }
   ]
 })

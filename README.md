@@ -84,3 +84,7 @@
 
 ### 第九週 - 
 1. [設計稿](https://xd.adobe.com/spec/f02993f5-4d00-4282-5a3b-cc27869f9afd-8618/)
+2. [CODE](https://github.com/guahsu/TheF2E/blob/master/src/components/SkillTree.vue)  
+3. [DEMO](https://guahsu.github.io/TheF2E/dist/index.html#/9/skill_tree)  
+
+最終週啦...先刻個版，假日再來繼續..
