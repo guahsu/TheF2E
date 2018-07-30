@@ -10,11 +10,18 @@
       .skill(
         v-for="(skill, index) in skills"
         @click="toggleSkill(index)"
+        @mouseover="hoverIndex = index"
+        @mouseleave="hoverIndex = null"
         :class="{ active: skill.active }"
         :key="index"
         )
         img(:src="skill.img")
-    .skill-info
+    .info
+      .info-content(:class="{ open: hoverIndex !== null }")
+        .info-content-message(v-if="hoverIndex !== null")
+          img.info-content-img(:src="skills[hoverIndex].img")
+          span {{ skills[hoverIndex].info }}
+      img.monocat(src="~@/assets/week9/img_monocat.png")
     img.hexcat(src="~@/assets/week9/img_hexcat.png")
     img.rocket(src="~@/assets/week9/img_rocket.png")
 </template>
@@ -28,9 +35,22 @@ export default {
     return {
       blade1,
       meat,
+      hoverIndex: null,
       skills: [
-        { name: '設計規範', level: 0, img: blade1, active: false },
-        { name: '爬梳乾貨', level: 1, img: meat, active: false }
+        {
+          name: '設計規範',
+          level: 0,
+          img: blade1,
+          active: false,
+          info: 'UI設計跟平面設計最大的不同是，因為具有功能、要被操作且須遵守規範，雖然難啃但不失為初心者必備武器。'
+        },
+        {
+          name: '爬梳乾貨',
+          level: 1,
+          img: meat,
+          active: false,
+          info: '這行沒什麼大學科系可選擇，與IT產業相同的是需仰賴大量的閱讀與自學，不管是新手村或職業都是。'
+        }
       ]
     }
   },
@@ -55,6 +75,46 @@ export default {
   background-repeat: no-repeat;
   * {
     box-sizing: border-box;
+  }
+  .info {
+    .monocat {
+      position: absolute;
+      top: 70vh;
+      left: 15vw;
+      height: 30vh;
+    }
+    &-content {
+      position: absolute;
+      top: 75vh;
+      left: 20vw;
+      overflow: hidden;
+      min-height: 100px;
+      width: 0vw;
+      border: solid 5px #5791ff;
+      border-radius: 20px;
+      background-color: #fff;
+      text-align: left;
+      letter-spacing: 1px;
+      font-weight: 500;
+      font-size: 3vh;
+      line-height: 1.5;
+      opacity: 0;
+      transition: 0.5s;
+      &-message {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+      }
+      &-img {
+        padding: 20px;
+      }
+      &.open {
+        padding: 20px 40px 20px 70px;
+        min-height: 100px;
+        width: 60vw;
+        opacity: 1;
+      }
+    }
   }
   .road {
     position: relative;
@@ -82,6 +142,7 @@ export default {
       user-select: none;
       &.active {
         filter: grayscale(0);
+        filter: drop-shadow(0px 0px 5px #fff);
         transform: scale(1);
       }
       &.active::before {
@@ -146,15 +207,20 @@ export default {
     }
     .title {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       flex-direction: column;
-      justify-content: flex-start;
+      justify-content: center;
       span {
         margin-left: 2vw;
         color: #fff;
         text-shadow: 0px 3px 7px #0093ff;
+        letter-spacing: 2px;
         font-weight: 900;
         font-size: 8vh;
+      }
+      span:last-child {
+        letter-spacing: 1px;
+        font-size: 6.5vh;
       }
     }
   }
