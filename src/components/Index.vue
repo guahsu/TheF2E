@@ -140,6 +140,10 @@ export default {
         {
           value: 8,
           label: '8 - Parallax Scrolling'
+        },
+        {
+          value: 9,
+          label: '9 - Skill Tree'
         }
       ],
       currentPage: 1,
