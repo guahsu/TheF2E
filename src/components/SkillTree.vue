@@ -6,18 +6,17 @@
       .title
         span 介面設計師轉職之路
         span UI Designer Road Map
-        | {{ enableSkillIds }}
     .road
       .column(
         v-for="(skills, index) in columnGroup"
         :key="index"
-      )
+        )
         .skill(
           v-for="(skill, index) in skills"
           @click="toggleActive(skill)"
           @mouseover="hoverId = skill.id"
           @mouseleave="hoverId = null"
-          :class="[{ enable: skill.enable }, `row${skill.row}`, `arrow-${skill.arrowStyle}`, `position-${skill.position}`]"
+          :class="[{ active: activeSkillIds.includes(skill.id) }, `row${skill.row}`, `arrow-${skill.arrowStyle}`, `position-${skill.position}`]"
           :key="index"
           )
           img(:src="skill.img")
@@ -44,104 +43,81 @@ export default {
   name: 'SkillTree',
   data() {
     return {
-      blade1,
-      meat,
-      hoverId: 1,
-      enableSkillIds: [],
+      hoverId: null,
+      activeSkillIds: [],
       skills: [
         {
           id: 1,
           name: '設計規範',
-          series: 1,
-          level: 1,
-          requiredPoint: 0,
-          requiredIds: [],
+          requirement: { type: 'or', ids: [] },
+          nextIds: [2, 6],
           img: blade1,
           info: 'UI設計跟平面設計最大的不同是，因為具有功能、要被操作且須遵守規範，雖然難啃但不失為初心者必備武器。',
           column: 1,
           position: '',
-          arrowStyle: 'right-long',
-          enable: false
+          arrowStyle: 'right-long'
         },
         {
           id: 2,
-          series: 1,
-          level: 2,
           name: '爬梳乾貨',
-          requiredPoint: 1,
-          requiredIds: [1],
+          requirement: { type: 'or', ids: [1] },
+          nextIds: [6],
           img: meat,
           info: '這行沒什麼大學科系可選擇，與IT產業相同的是需仰賴大量的閱讀與自學，不管是新手村或職業都是。',
           column: 3,
           position: '',
-          arrowStyle: 'right',
-          enable: false
+          arrowStyle: 'right'
         },
         {
           id: 3,
-          series: 2,
-          level: 1,
           name: 'UX思維',
-          requiredPoint: 0,
-          requiredIds: [],
+          requirement: { type: 'or', ids: [] },
+          nextIds: [4, 5, 6],
           img: shield,
           info: '使用者體驗(User Experience)是指一個人使用一個特定產品或系統或服務時的行為、情緒與態度。',
           column: 1,
           position: '',
-          arrowStyle: 'right',
-          enable: false
+          arrowStyle: 'right'
         },
         {
           id: 4,
-          series: 2,
-          level: 2,
           name: '設計思考',
-          requiredPoint: 1,
-          requiredIds: [3],
+          requirement: { type: 'or', ids: [3] },
+          nextIds: [5, 6],
           img: hat,
           info: '使用者體驗(User Experience)是指一個人使用一個特定產品或系統或服務時的行為、情緒與態度。',
           column: 2,
           position: 'end',
-          arrowStyle: 'right',
-          enable: false
+          arrowStyle: 'right'
         },
         {
           id: 5,
-          series: 2,
-          level: 3,
           name: '心理學',
-          requiredPoint: 2,
-          requiredIds: [4],
+          requirement: { type: 'or', ids: [4] },
+          nextIds: [6],
           img: horn,
           info:
             '線框稿中的元素應該是非常精簡的，通常設計師只會使用方框、線和灰階的底圖 (來表現不同的階層)。某些內容在初期還未確定或實作時，可先利用方框或假文字來表示，例如:圖片、影片與文字等等。',
           column: 3,
           position: '',
-          arrowStyle: 'right',
-          enable: false
+          arrowStyle: 'right'
         },
         {
           id: 6,
-          series: 1,
-          level: 4,
           name: '線框稿',
-          requiredPoint: 1,
-          requiredIds: [2, 4],
+          requirement: { type: 'or', ids: [2, 5] },
+          nextIds: [],
           img: hammer,
           info:
             '線框稿中的元素應該是非常精簡的，通常設計師只會使用方框、線和灰階的底圖 (來表現不同的階層)。某些內容在初期還未確定或實作時，可先利用方框或假文字來表示，例如:圖片、影片與文字等等。',
           column: 4,
           position: 'center',
-          arrowStyle: '',
-          enable: false
+          arrowStyle: ''
         }
       ]
     }
   },
   computed: {
-    enabledSkillCnt() {
-      return this.skills.filter(skill => skill.enable).length
-    },
     hoverInfo() {
       return this.skills.find(skill => skill.id === this.hoverId)
     },
@@ -151,29 +127,31 @@ export default {
       const column2 = this.skills.filter(skill => skill.column === 2)
       const column3 = this.skills.filter(skill => skill.column === 3)
       const column4 = this.skills.filter(skill => skill.column === 4)
-      console.log(column1)
       return [column1, column2, column3, column4]
     }
   },
   methods: {
     check(target) {
-      const skillReg = new RegExp(`${target.requiredIds.join('|')}`, 'g')
-      return this.enabledSkillCnt >= target.requiredPoint && this.enableSkillIds.join().match(skillReg)
+      const skillReg = target.requirement.type === 'or'
+        ? new RegExp(`${target.requirement.ids.join('|')}`, 'g')
+        : new RegExp(`${target.requirement.ids.map(id => `(?=.*${id})`).join('')}.*`, 'g')
+      return this.activeSkillIds.join().match(skillReg)
+    },
+    removeActiveSkill(id) {
+      const index = this.activeSkillIds.indexOf(id)
+      if (index !== -1) {
+        this.activeSkillIds.splice(index, 1)
+      }
     },
     toggleActive(target) {
-      if (this.check(target)) {
-        target.enable = !target.enable
-        if (!target.enable) {
-          // @Bug: 邏輯不明囧
-          this.skills.filter(skill => {
-            if (skill.level > target.level) {
-              skill.enable = false
-              this.enableSkillIds.splice(this.enableSkillIds.indexOf(skill.id), 1)
-            }
-          })
-        } else {
-          this.enableSkillIds.push(target.id)
-        }
+      if (this.activeSkillIds.includes(target.id)) {
+        this.removeActiveSkill(target.id)
+        target.nextIds.forEach(id => {
+          const skill = this.skills.find(skill => skill.id === id)
+          !this.check(skill) && this.removeActiveSkill(skill.id)
+        })
+      } else if (this.check(target)) {
+        this.activeSkillIds.push(target.id)
       }
     }
   }
@@ -183,10 +161,9 @@ export default {
 <style lang="scss">
 #SkillTree {
   position: relative;
-  width: 100vw;
-  // min-width: 1000px;
   overflow: auto;
   min-height: 1000px;
+  width: 100vw;
   background-image: url('~@/assets/week9/bg.png'), linear-gradient(#301a3b, #10030a);
   background-position: bottom;
   background-repeat: no-repeat;
@@ -252,9 +229,9 @@ export default {
       }
 
       &-name {
-        font-size: 4.5vh;
-        font-weight: 600;
         margin-bottom: 5px;
+        font-weight: 600;
+        font-size: 4.5vh;
       }
       &-img {
         padding: 20px;
@@ -276,10 +253,10 @@ export default {
     margin-bottom: 20vh;
     .column {
       display: flex;
-      height: 230px;
-      flex-direction: column;
       align-items: flex-start;
+      flex-direction: column;
       justify-content: space-between;
+      height: 230px;
     }
     .skill {
       display: flex;
@@ -305,17 +282,17 @@ export default {
           @include arrow(right, 4);
         }
       }
-      &.enable {
+      &.active {
+        z-index: 2;
         filter: grayscale(0);
         filter: drop-shadow(0px 0px 5px #fff);
         transform: scale(1.01);
-        z-index: 2;
       }
-      &.enable::before {
+      &.active::before {
         background-color: #fff;
         filter: drop-shadow(0px 0px 5px #fff);
       }
-      &.enable::after {
+      &.active::after {
         border-left-color: #fff;
         filter: drop-shadow(0px 0px 5px #fff);
       }
