@@ -70,7 +70,7 @@
 第一次研究pixi，只做出了個入門都不太到邊的東西(?)先頂著交作業，  
 只能等有空再來調整了...也希望週三能趕得上老師的直播。
 
-### 第八週 - Canvas Game
+### 第八週 - Parallax Scrolling
 1. [設計稿](https://hexschool.github.io/THE_F2E_Design/week8-parallax%20scrolling/)
 2. [CODE](https://github.com/guahsu/TheF2E/blob/master/src/components/ParallaxScrolling.vue)  
 3. [DEMO](https://guahsu.github.io/TheF2E/dist/index.html#/8/parallax_scrolling)  
@@ -82,7 +82,7 @@
 比較特別的是因為我不太會用svg畫圖，  
 這次所有的形狀都是透過偽元素放`文字符號`&`-webkit-text-stroke`來做:D
 
-### 第九週 - 
+### 第九週 - Skill Tree
 1. [設計稿](https://xd.adobe.com/spec/f02993f5-4d00-4282-5a3b-cc27869f9afd-8618/)
 2. [CODE](https://github.com/guahsu/TheF2E/blob/master/src/components/SkillTree.vue)  
 3. [DEMO](https://guahsu.github.io/TheF2E/dist/index.html#/9/skill_tree)  
