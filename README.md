@@ -87,4 +87,10 @@
 2. [CODE](https://github.com/guahsu/TheF2E/blob/master/src/components/SkillTree.vue)  
 3. [DEMO](https://guahsu.github.io/TheF2E/dist/index.html#/9/skill_tree)  
 
-最終週啦...先刻個版，假日再來繼續..
+最終週，第一次遇到skill這樣要考慮前後配點問題的條件，  
+往後點要計算前置條件，往前取消要在把後方所有關聯都取消，  
+所以在設定檔寫得比較複雜，後來發問才驚覺沒有什麼分支，  
+設計稿上就是單純點滿往下一階囧  
+
+最終週技能除了技能邏輯，還有複雜的箭頭符號，  
+我沿用了第八週的文字符作法：）
