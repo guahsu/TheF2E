@@ -75,9 +75,6 @@ export default {
 </script>
 
 <style lang="scss">
-#app {
-  min-width: 1400px;
-}
 #SkillTree {
   * {
     box-sizing: border-box;

@@ -1,5 +1,5 @@
 <template lang="pug">
-  #app
+  #app(:class="{ 'min-size': isWeek9 }")
     router-view
     el-footer.guahsu(v-if="showFooter")
       | Create By GuaHsu
@@ -15,6 +15,9 @@ export default {
   computed: {
     showFooter() {
       return !this.$route.path.match(/parallax_scrolling/)
+    },
+    isWeek9() {
+      return this.$route.path.match(/skill_tree/)
     }
   }
 }
@@ -30,6 +33,9 @@ export default {
   width: 100%;
   color: #2c3e50;
   text-align: center;
+  &.min-size {
+    min-width: 1400px;
+  }
   * {
     box-sizing: border-box;
   }
