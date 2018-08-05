@@ -47,6 +47,16 @@ export default {
       return this.skills.find(skill => skill.id === this.hoverId)
     }
   },
+  watch: {
+    activeSkillIds() {
+      this.$router.replace(`?ids=${this.activeSkillIds.join(',')}`)
+    }
+  },
+  created() {
+    if (this.$route.query.ids) {
+      this.activeSkillIds = this.$route.query.ids.split(',')
+    }
+  },
   methods: {
     check(target) {
       const skillReg =
